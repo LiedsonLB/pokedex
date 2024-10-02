@@ -1,10 +1,10 @@
 # Pokédex - Desafio Técnico Front-end (09/2024)
 
-[![Versão](https://img.shields.io/github/v/release/LiedsonLB/desafio-infoG2)](https://github.com/LiedsonLB/desafio-infoG2/releases)
-[![Forks](https://img.shields.io/github/forks/LiedsonLB/desafio-infoG2)](https://github.com/LiedsonLB/desafio-infoG2/network/members)
-[![Contribuidores](https://img.shields.io/github/contributors/LiedsonLB/desafio-infoG2)](https://github.com/LiedsonLB/desafio-infoG2/graphs/contributors)
-[![Pull Requests Abertos](https://img.shields.io/github/issues-pr/LiedsonLB/desafio-infoG2)](https://github.com/LiedsonLB/desafio-infoG2/pulls)
-[![Última Atualização](https://img.shields.io/github/last-commit/LiedsonLB/desafio-infoG2)](https://github.com/LiedsonLB/desafio-infoG2/commits/master) 
+[![Versão](https://img.shields.io/github/v/release/LiedsonLB/desafio-infoG2)](https://github.com/LiedsonLB/pokedex/releases)
+[![Forks](https://img.shields.io/github/forks/LiedsonLB/desafio-infoG2)](https://github.com/LiedsonLB/pokedex/network/members)
+[![Contribuidores](https://img.shields.io/github/contributors/LiedsonLB/desafio-infoG2)](https://github.com/LiedsonLB/pokedex/graphs/contributors)
+[![Pull Requests Abertos](https://img.shields.io/github/issues-pr/LiedsonLB/desafio-infoG2)](https://github.com/LiedsonLB/pokedex/pulls)
+[![Última Atualização](https://img.shields.io/github/last-commit/LiedsonLB/desafio-infoG2)](https://github.com/LiedsonLB/pokedex/commits/master) 
 
 <img src="./public/img/icon_pokebola.png" alt="Pokebola" width="150" height="150">
 
@@ -15,6 +15,10 @@ Este projeto é uma aplicação web de uma **Pokédex** que permite aos usuário
 ## Design
 
 - **Figma:** [Pokedex Figma](https://www.figma.com/design/7CpFuiZ49RpPIBmQ2j9vg1/Pokedex_LiedsonLB)
+
+## Deploy
+
+- O projeto está disponível em produção no link: [https://pokedexlb.vercel.app/](https://pokedexlb.vercel.app/).
 
 ## Funcionalidades
 
@@ -61,10 +65,6 @@ Este projeto é uma aplicação web de uma **Pokédex** que permite aos usuário
 - **Composition API** foi utilizada para maior flexibilidade e organização de código.
 - **Pinia** foi utilizado para gerenciamento de estado global, facilitando a manipulação dos dados entre os componentes.
 - **TypeScript** foi adotado para garantir maior segurança na tipagem de dados e melhorar a manutenção do código.
-
-## Deploy
-
-O projeto está disponível em produção no seguinte link: [https://semUrlAinda.vercel.app](https://semUrlAinda.vercel.app).
 
 ## Execute o Vue
 
