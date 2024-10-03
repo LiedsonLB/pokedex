@@ -1,8 +1,13 @@
 <template>
   <section class="pokemon-search">
     <div class="container-search">
-      <input type="text" placeholder="Procure por um pokémon..." />
-      <div class="filter-icon">
+      <input
+        type="text"
+        placeholder="Procure por um pokémon..."
+        v-model="searchTerm"
+        @input="filterPokemon"
+      />
+      <div class="filter-icon" @click="fetchAllPokemons">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 512 512"
@@ -14,36 +19,107 @@
         </svg>
       </div>
     </div>
-    <p>Pokémons encontrados (920):</p>
+    <p>Pokémons encontrados: {{ filteredPokemons.length }}</p>
     <div class="pokemon-cards">
-      <div class="pokemon-card">
-        <div class="rank">#1</div>
-        <img src="@/assets/pokemon.png" alt="Bulbasaur" />
-        <p>Bulbasaur</p>
+      <div
+        class="pokemon-card"
+        v-for="pokemon in filteredPokemons"
+        :key="pokemon.id"
+        @click="selectPokemon(pokemon)"
+      >
+        <div class="rank">#{{ pokemon.id }}</div>
+        <img :src="pokemon.sprites.front_default" :alt="pokemon.name" />
+        <p>{{ pokemon.name }}</p>
       </div>
-      <div class="pokemon-card">
-        <div class="rank">#2</div>
-        <img src="@/assets/pokemon2.png" alt="Mankey" />
-        <p>Mankey</p>
-      </div>
-      <div class="pokemon-card">
-        <div class="rank">#3</div>
-        <img src="@/assets/pokemon.png" alt="Bulbasaur" />
-        <p>Bulbasaur</p>
-      </div>
-      <div class="pokemon-card">
-        <div class="rank">#1</div>
-        <img src="@/assets/pokemon.png" alt="Pikachu" />
-        <p>Pikachu</p>
+    </div>
+    <div v-if="evolutions.length">
+      <h3>Cadeia de Evolução:</h3>
+      <div class="pokemon-cards">
+        <div
+          class="pokemon-card"
+          v-for="evolution in evolutions"
+          :key="evolution.id"
+        >
+          <div class="rank">#{{ evolution.id }}</div>
+          <img :src="evolution.sprites.front_default" :alt="evolution.name" />
+          <p>{{ evolution.name }}</p>
+        </div>
       </div>
     </div>
   </section>
 </template>
-  
-  <script setup>
+
+<script setup>
+import { ref, defineEmits } from "vue";
+
+const emit = defineEmits();
+
+const searchTerm = ref("");
+const allPokemons = ref([]);
+const filteredPokemons = ref([]);
+const evolutions = ref([]);
+
+const selectPokemon = async (pokemon) => {
+  try {
+    const response = await fetch(pokemon.url);
+    const detailedPokemon = await response.json();
+
+    emit("pokemon-selected", detailedPokemon);
+  } catch (error) {
+    console.error("Erro ao buscar detalhes do Pokémon:", error);
+  }
+
+  const evolutionsSection = document.querySelector("#header");
+  if (evolutionsSection) {
+    evolutionsSection.scrollIntoView({ behavior: "smooth" });
+  }
+};
+
+const handleClick = (pokemon) => {
+  selectPokemon(pokemon);
+};
+
+// Api de todos os pokemons
+const fetchAllPokemons = async () => {
+  const response = await fetch("https://pokeapi.co/api/v2/pokemon?limit=920");
+  const data = await response.json();
+  allPokemons.value = data.results.map((pokemon, index) => ({
+    id: index + 1,
+    name: pokemon.name,
+    url: pokemon.url,
+    sprites: {
+      front_default: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${
+        index + 1
+      }.png`,
+    },
+  }));
+  filteredPokemons.value = allPokemons.value;
+};
+
+// Função para filtrar Pokémon
+const filterPokemon = () => {
+  filteredPokemons.value = allPokemons.value.filter((pokemon) =>
+    pokemon.name.toLowerCase().includes(searchTerm.value.toLowerCase())
+  );
+};
+
+// Função para adicionar evoluções à lista
+const addEvolutionToContainer = (evolutionNode) => {
+  const pokemonId = evolutionNode.species.url.split("/").slice(-2, -1)[0];
+  fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonId}`)
+    .then((response) => response.json())
+    .then((data) => {
+      evolutions.value.push(data);
+      if (evolutionNode.evolves_to.length) {
+        evolutionNode.evolves_to.forEach(addEvolutionToContainer);
+      }
+    });
+};
+
+fetchAllPokemons();
 </script>
-  
-  <style scoped>
+
+<style scoped>
 .pokemon-search {
   width: 45%;
 }
@@ -101,7 +177,9 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 30px;
-  max-height: 600px;
+  max-height: 450px;
+  overflow-y: auto;
+  padding: 1.5rem 1rem;
 }
 
 .pokemon-card {
@@ -122,11 +200,6 @@
   background: var(--card-gradient) !important;
 }
 
-.pokemon-card.active {
-  outline: 2px solid var(--color-red) !important;
-  background: var(--card-gradient) !important;
-}
-
 .pokemon-card .rank {
   position: absolute;
   top: -1rem;
@@ -139,8 +212,7 @@
 }
 
 .pokemon-card:hover .rank,
-.pokemon-card:focus .rank,
-.pokemon-card.active .rank {
+.pokemon-card:focus .rank {
   background-color: var(--color-red);
   outline: 2px solid var(--color-red);
 }
@@ -162,4 +234,3 @@
   text-shadow: var(--stroke-text);
 }
 </style>
-  

@@ -1,5 +1,5 @@
 <template>
-  <header>
+  <header id="header">
     <div class="logo">
       <img src="@/assets/icon_pokebola.png" alt="Pokebola" class="pokeball" />
       <p>Pokedex</p>
