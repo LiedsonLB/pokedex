@@ -1,7 +1,11 @@
 <template>
   <section class="pokemon-info">
     <div class="container-view-pokemon">
-      <button class="favorite-pokemon favorite">
+      <button
+        class="favorite-pokemon"
+        :class="{ favorited: isFavorited }"
+        @click="toggleFavorite"
+      >
         <svg
           class="empty"
           xmlns="http://www.w3.org/2000/svg"
@@ -87,7 +91,44 @@
 </template>
 
 <script setup>
-defineProps(["pokemon", "evolutions"]);
+import { ref, onMounted, watch } from "vue";
+
+const props = defineProps(["pokemon", "evolutions"]);
+const isFavorited = ref(false);
+
+// Função para verificar se o Pokémon está nos favoritos
+const checkIfFavorited = () => {
+  const favorites = JSON.parse(localStorage.getItem("favoritePokemons")) || [];
+  isFavorited.value = favorites.includes(props.pokemon.name);
+};
+
+// Função para alternar o estado de favorito
+const toggleFavorite = () => {
+  let favorites = JSON.parse(localStorage.getItem("favoritePokemons")) || [];
+  if (isFavorited.value) {
+    favorites = favorites.filter((fav) => fav !== props.pokemon.name);
+  } else {
+    favorites.push(props.pokemon.name);
+  }
+  localStorage.setItem("favoritePokemons", JSON.stringify(favorites));
+  isFavorited.value = !isFavorited.value;
+};
+
+onMounted(() => {
+  if (props.pokemon && props.pokemon.name) {
+    checkIfFavorited();
+  }
+});
+
+// Observa mudanças na prop `pokemon` e chama `checkIfFavorited`
+watch(
+  () => props.pokemon,
+  (newPokemon) => {
+    if (newPokemon && newPokemon.name) {
+      checkIfFavorited();
+    }
+  }
+);
 </script>
   
   <style scoped>
@@ -354,7 +395,11 @@ button:hover .filled {
   animation: beatingHeart 1.2s infinite;
 }
 
-.favorite svg {
+.favorite-pokemon.favorited svg {
+  opacity: 0;
+}
+
+.favorite-pokemon.favorited svg {
   opacity: 1;
 }
 </style>
