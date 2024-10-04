@@ -1,1 +1,1 @@
-{"root":["./src/main.ts","./src/vite-env.d.ts","./src/types/vue-shim.d.ts","./src/app.vue","./src/components/favoritessection.vue","./src/components/header.vue","./src/components/pokemoninfo.vue","./src/components/pokemonsearch.vue"],"version":"5.6.2"}
+{"root":["./src/main.ts","./src/vite-env.d.ts","./src/types/vue-shim.d.ts","./src/app.vue","./src/components/favoritessection.vue","./src/components/header.vue","./src/components/modalfavorites.vue","./src/components/pokemoninfo.vue","./src/components/pokemonsearch.vue"],"version":"5.6.2"}

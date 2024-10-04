@@ -13,7 +13,7 @@
 Este projeto é uma aplicação web de uma **Pokédex** que permite aos usuários pesquisar, visualizar e filtrar informações sobre os Pokémon, utilizando a **PokeAPI**. O objetivo deste desafio é demonstrar habilidades com **Vue.js 3**, **Composition API**, **Vite**, e **TypeScript** para uma vaga na Baseworks.
 
 ## Imagens
-<img src="./public/img/interfacepokedex.png" alt="interface_pokedex">
+<img src="./public/img/interface_pokedex.png" alt="interface_pokedex">
 
 ## Design
 
