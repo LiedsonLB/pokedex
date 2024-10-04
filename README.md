@@ -12,6 +12,9 @@
 
 Este projeto é uma aplicação web de uma **Pokédex** que permite aos usuários pesquisar, visualizar e filtrar informações sobre os Pokémon, utilizando a **PokeAPI**. O objetivo deste desafio é demonstrar habilidades com **Vue.js 3**, **Composition API**, **Vite**, e **TypeScript** para uma vaga na Baseworks.
 
+## Imagens
+<img src="./public/img/interfacepokedex.png" alt="interface_pokedex">
+
 ## Design
 
 - **Figma:** [Pokedex Figma](https://www.figma.com/design/7CpFuiZ49RpPIBmQ2j9vg1/Pokedex_LiedsonLB)

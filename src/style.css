@@ -32,7 +32,7 @@ body {
   margin: 0;
   width: 100vw;
   font-family: var(--font-anton) !important;
-  overflow-x: hidden;
+  overflow: hidden;
   background-color: var(--color-gray);
   color: var(--color-black);
 }
@@ -58,6 +58,10 @@ main {
 }
 
 @media (max-width: 1024px) {
+  body, html {
+    overflow-y: auto !important;
+  }
+
   main {
     flex-direction: column;
     align-items: center;
@@ -71,6 +75,10 @@ main {
 
   .pokemon-cards {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .favorites {
+    grid-template-columns: repeat(3, 1fr) !important;
   }
 }
 
@@ -113,6 +121,10 @@ main {
     width: 100% !important;
     gap: 1rem !important;
   }
+
+  .favorites {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
 }
 
 @media (max-width: 480px) {
@@ -148,5 +160,9 @@ main {
 
   .pokemon-card p {
     font-size: 14px;
+  }
+
+  .favorites {
+    grid-template-columns: repeat(1, 1fr) !important;
   }
 }

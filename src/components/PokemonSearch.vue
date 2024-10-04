@@ -151,7 +151,7 @@ fetchAllPokemons();
 
 .pokemon-search p {
   font-size: 0.9rem;
-  margin-bottom: 25px;
+  margin-bottom: 20px;
 }
 
 .filter-icon {

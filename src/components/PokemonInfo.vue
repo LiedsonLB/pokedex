@@ -95,6 +95,7 @@ import { ref, onMounted, watch } from "vue";
 
 const props = defineProps(["pokemon", "evolutions"]);
 const isFavorited = ref(false);
+const evolution = ref([]);
 
 // Função para verificar se o Pokémon está nos favoritos
 const checkIfFavorited = () => {
@@ -118,9 +119,11 @@ onMounted(() => {
   if (props.pokemon && props.pokemon.name) {
     checkIfFavorited();
   }
+  evolution.value = props.evolutions;
+  console.log(evolution);
 });
 
-// Observa mudanças na prop `pokemon` e chama `checkIfFavorited`
+// Observa mudanças na prop de pokemon e chama checkIfFavorited
 watch(
   () => props.pokemon,
   (newPokemon) => {
