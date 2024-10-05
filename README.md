@@ -54,13 +54,18 @@ Este projeto é uma aplicação web de uma **Pokédex** que permite aos usuário
 
 ## Testes
 
-<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/cypressio/cypressio-original.svg" alt="cypress" height="30" width="40" style="margin: 0 auto; width: 100%"> <br />
-<p style="text-align: center">Ferramenta de Testes: Cypress</p>
+<div style="display: flex; justify-content: center ; width: 100%"
+style="margin: 0 auto; width: 100%">
+<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/cypressio/cypressio-original.svg" alt="cypress" height="30" width="40"> 
+<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/vitest/vitest-original.svg" alt="cypress" height="30" width="40"> 
+</div>
+<br />
+<p style="text-align: center">Ferramenta de Testes: Vitest and Cypress</p>
 
-- Teste de carregamento de componentes HTML ❌
+- Teste de carregamento de componentes HTML ✅
 - Envio de dados normal ❌
 - Testes funcionais ❌
-- Testes de banco e API ❌
+- Testes de API ✅ 
 - Testes de sistema ❌
 
 ## Decisões Técnicas
