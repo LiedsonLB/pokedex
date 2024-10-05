@@ -7,47 +7,56 @@
       </div>
       <div>
         <div class="types-list">
-          <div class="select-all type-checkbox">
-            <input
-              type="checkbox"
-              id="select-all"
-              @change="toggleAll"
-              :checked="selectedTypes.length === allTypes.length"
-            />
-            <label for="select-all">Todos</label>
-          </div>
           <label
             v-for="type in allTypes"
             :key="type"
             :class="`type-${type} type-checkbox`"
           >
             <input type="checkbox" :value="type" v-model="selectedTypes" />
-            <span class="checkbox-icon"></span>
-            {{ type }}
+            {{ getLabelText(type) }}
           </label>
         </div>
       </div>
+      <div class="container-btn">
+        <button @click="applyTypeFilter" class="filter-apply">
+          Aplicar Filtro
+        </button>
+      </div>
     </div>
   </div>
-</template>  
-  
-  <script setup>
+</template>
+
+<script setup>
 import { ref, defineEmits } from "vue";
 
 const isModalOpen = ref(true);
 const allTypes = ref([]);
 const selectedTypes = ref([]);
-
 const emit = defineEmits();
 
 const closeModal = () => {
-  emit('closeModal'); // Emite o evento para o pai
+  emit("closeModal");
 };
 
-// Aplicar filtro por tipo
+const getLabelText = (type) => {
+  return selectedTypes.value.includes(type)
+    ? "SELECIONADO"
+    : type.toUpperCase();
+};
+
 const applyTypeFilter = () => {
-  console.log("Tipos selecionados:", selectedTypes.value);
-  toggleModal();
+  console.log(selectedTypes.value);
+  emit("filterApplied", selectedTypes.value);
+  closeModal();
+};
+
+// Alterna a seleção de todos os checkboxes
+const toggleAll = (event) => {
+  if (event.target.checked) {
+    selectedTypes.value = [...allTypes.value];
+  } else {
+    selectedTypes.value = [];
+  }
 };
 
 // Buscar todos os tipos de Pokémon
@@ -139,13 +148,15 @@ fetchAllTypes();
   align-items: center;
   border: 1px solid #ccc;
   padding: 10px;
-  border-radius: 8px;
   background-color: var(--color-white);
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
   cursor: pointer;
   text-align: center;
-  display: flex;
   justify-content: center;
+  user-select: none;
+  color: var(--color-white);
+  text-shadow: var(--stroke-text);
+  letter-spacing: 1px;
 }
 
 .type-checkbox:hover {
@@ -162,7 +173,6 @@ fetchAllTypes();
   border: 2px solid var(--color-gray);
   border-radius: 4px;
   margin-right: 10px;
-  position: relative;
   cursor: pointer;
   transition: border-color 0.3s ease;
 }
@@ -176,22 +186,32 @@ fetchAllTypes();
   border-color: var(--color-red);
 }
 
-.type-checkbox input[type="checkbox"]:checked::after {
-  content: "✓";
+.container-btn {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.filter-apply {
+  background: var(--color-black);
   color: var(--color-white);
-  font-size: 14px;
-  position: absolute;
-  top: 0;
-  left: 4px;
+  font-family: var(--font-anton);
+  font-size: 1rem;
+  letter-spacing: 1px;
+  border: none;
+  margin-block: 20px;
+  outline-offset: 5px;
+  outline: 2px solid var(--color-black);
+  padding: 10px;
+  width: 100%;
+  max-width: 250px;
+  text-align: center;
+  cursor: pointer;
+  user-select: none;
 }
 
-.type-checkbox label {
-  font-size: 1.1rem;
-  color: var(--color-black);
-}
-
-.type-checkbox input[type="checkbox"]:checked + label {
-  color: var(--color-red);
+.filter-apply:hover {
+  background: var(--color-red);
+  outline-color: var(--color-red);
 }
 </style>
-  

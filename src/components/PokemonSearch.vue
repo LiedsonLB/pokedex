@@ -1,6 +1,13 @@
 <template>
-  <ModalTypesPokemon v-if="isShowModal" @closeModal="closeModal" />
-  <section class="pokemon-search">
+  <ModalTypesPokemon
+    v-if="isShowModal"
+    @closeModal="closeModal"
+    @filterTypes="handleFilterTypes"
+  />
+
+  <Loading v-if="isLoading" />
+
+  <section class="pokemon-search" v-else>
     <div class="container-search">
       <input
         type="text"
@@ -52,6 +59,7 @@
 
 <script setup>
 import ModalTypesPokemon from "./modals/ModalTypesPokemon.vue";
+import Loading from "@/components/Loading.vue";
 import { ref, defineEmits } from "vue";
 
 const emit = defineEmits();
@@ -60,7 +68,9 @@ const searchTerm = ref("");
 const allPokemons = ref([]);
 const filteredPokemons = ref([]);
 const evolutions = ref([]);
+const selectedTypes = ref([]);
 const isShowModal = ref(false);
+const isLoading = ref(true);
 
 const selectPokemon = async (pokemon) => {
   try {
@@ -78,6 +88,11 @@ const selectPokemon = async (pokemon) => {
   }
 };
 
+const handleFilterTypes = (types) => {
+  selectedTypes.value = types;
+  filterPokemon();
+};
+
 const openModal = () => {
   isShowModal.value = true;
 };
@@ -86,48 +101,54 @@ const closeModal = () => {
   isShowModal.value = false;
 };
 
-const handleClick = (pokemon) => {
-  selectPokemon(pokemon);
-};
-
-// Api de todos os pokemons
-const fetchAllPokemons = async () => {
-  const response = await fetch("https://pokeapi.co/api/v2/pokemon?limit=920");
-  const data = await response.json();
-  allPokemons.value = data.results.map((pokemon, index) => ({
-    id: index + 1,
-    name: pokemon.name,
-    url: pokemon.url,
-    sprites: {
-      // substituir o link da imagem por uma imagem mais moderna
-      front_default: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${
-        index + 1
-      }.png`,
-    },
-  }));
-  filteredPokemons.value = allPokemons.value;
-};
-
-// Função para filtrar Pokémon
+// Função para filtrar tanto por nome quanto por tipos
 const filterPokemon = () => {
-  filteredPokemons.value = allPokemons.value.filter((pokemon) =>
-    pokemon.name.toLowerCase().includes(searchTerm.value.toLowerCase())
-  );
+  filteredPokemons.value = allPokemons.value.filter((pokemon) => {
+    const matchesName = pokemon.name
+      .toLowerCase()
+      .includes(searchTerm.value.toLowerCase());
+    const matchesType =
+      selectedTypes.value.length === 0 ||
+      pokemon.types.some((type) => selectedTypes.value.includes(type));
+    return matchesName && matchesType;
+  });
 };
 
-// Função para adicionar evoluções à lista
-const addEvolutionToContainer = (evolutionNode) => {
-  const pokemonId = evolutionNode.species.url.split("/").slice(-2, -1)[0];
-  fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonId}`)
-    .then((response) => response.json())
-    .then((data) => {
-      evolutions.value.push(data);
-      if (evolutionNode.evolves_to.length) {
-        evolutionNode.evolves_to.forEach(addEvolutionToContainer);
-      }
-    });
+// Função para buscar todos os Pokémons
+const fetchAllPokemons = async () => {
+  try {
+    const response = await fetch("https://pokeapi.co/api/v2/pokemon?limit=920");
+    const data = await response.json();
+    allPokemons.value = data.results.map((pokemon, index) => ({
+      id: index + 1,
+      name: pokemon.name,
+      url: pokemon.url,
+      sprites: {
+        front_default: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${
+          index + 1
+        }.png`,
+      },
+      types: [], // O tipo será preenchido ao buscar os detalhes do Pokémon
+    }));
+
+    filteredPokemons.value = allPokemons.value;
+
+    // Buscar detalhes adicionais para incluir os tipos
+    await Promise.all(
+      allPokemons.value.map(async (pokemon) => {
+        const response = await fetch(pokemon.url);
+        const details = await response.json();
+        pokemon.types = details.types.map((typeInfo) => typeInfo.type.name);
+      })
+    );
+  } catch (error) {
+    console.error("Erro ao buscar a lista de Pokémons:", error);
+  } finally {
+    isLoading.value = false;
+  }
 };
 
+// Chama a função para buscar todos os pokémons ao carregar o componente
 fetchAllPokemons();
 </script>
 

@@ -36,6 +36,7 @@ body {
   overflow: hidden;
   background-color: var(--color-gray);
   color: var(--color-black);
+  position: relative;
 }
 
 main {
@@ -43,6 +44,7 @@ main {
   justify-content: space-around;
   padding: 1.8rem;
   flex-wrap: wrap;
+  min-height: 100vh;
 }
 
 ::-webkit-scrollbar {
@@ -51,7 +53,6 @@ main {
 
 ::-webkit-scrollbar-thumb {
   background-color: var(--color-white);
-  border-radius: 10px;
 }
 
 ::-webkit-scrollbar-track {
@@ -157,6 +158,22 @@ main {
 .type-unknown {
   background-color: var(--color-black) !important;
   color: var(--color-white);
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: rotate(5deg);
+  }
+  25% {
+    transform: rotate(-25deg);
+  }
+  50% {
+    transform: rotate(15deg);
+  }
+  75% {
+    transform: rotate(-5deg);
+  }
 }
 
 @media (max-width: 1024px) {
