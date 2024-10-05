@@ -1,5 +1,5 @@
 <template>
-  <ModalTypesPokemon />
+  <ModalTypesPokemon v-if="isShowModal" @closeModal="closeModal" />
   <section class="pokemon-search">
     <div class="container-search">
       <input
@@ -8,7 +8,7 @@
         v-model="searchTerm"
         @input="filterPokemon"
       />
-      <div class="filter-icon" @click="fetchAllPokemons">
+      <div class="filter-icon" @click="openModal">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 512 512"
@@ -60,6 +60,7 @@ const searchTerm = ref("");
 const allPokemons = ref([]);
 const filteredPokemons = ref([]);
 const evolutions = ref([]);
+const isShowModal = ref(false);
 
 const selectPokemon = async (pokemon) => {
   try {
@@ -77,6 +78,14 @@ const selectPokemon = async (pokemon) => {
   }
 };
 
+const openModal = () => {
+  isShowModal.value = true;
+};
+
+const closeModal = () => {
+  isShowModal.value = false;
+};
+
 const handleClick = (pokemon) => {
   selectPokemon(pokemon);
 };
@@ -90,6 +99,7 @@ const fetchAllPokemons = async () => {
     name: pokemon.name,
     url: pokemon.url,
     sprites: {
+      // substituir o link da imagem por uma imagem mais moderna
       front_default: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${
         index + 1
       }.png`,

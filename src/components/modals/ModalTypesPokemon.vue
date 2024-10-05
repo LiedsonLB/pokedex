@@ -3,7 +3,7 @@
     <div class="modal-content">
       <div class="modal-title">
         <p>Selecione os Tipos de Pokémon</p>
-        <button class="close" @click="toggleModal">&times;</button>
+        <button class="close" @click="closeModal">&times;</button>
       </div>
       <div>
         <div class="types-list">
@@ -14,7 +14,7 @@
               @change="toggleAll"
               :checked="selectedTypes.length === allTypes.length"
             />
-            <label for="select-all">Selecionar Todos</label>
+            <label for="select-all">Todos</label>
           </div>
           <label
             v-for="type in allTypes"
@@ -32,17 +32,16 @@
 </template>  
   
   <script setup>
-import { ref } from "vue";
+import { ref, defineEmits } from "vue";
 
-const isModalOpen = ref(false);
+const isModalOpen = ref(true);
 const allTypes = ref([]);
 const selectedTypes = ref([]);
 
-const emit = defineEmits(["close"]);
+const emit = defineEmits();
 
-// Alternar visibilidade do modal
-const toggleModal = () => {
-  isModalOpen.value = !isModalOpen.value;
+const closeModal = () => {
+  emit('closeModal'); // Emite o evento para o pai
 };
 
 // Aplicar filtro por tipo
