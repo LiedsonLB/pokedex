@@ -5,6 +5,8 @@
         <img src="@/assets/icon_pokebola.png" alt="loading" />
       </div>
     </div>
+    <br />
+    <p>Carregando...</p>
   </div>
 </template>
   
@@ -15,7 +17,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
   position: fixed;
+  top: 0rem;
 }
 
 .loading-spinner {
@@ -33,7 +37,6 @@
 .spinner img {
   width: 100%;
   height: 100%;
-  filter: grayscale(100%);
 }
 </style>
   

@@ -144,7 +144,7 @@ const fetchAllPokemons = async () => {
   } catch (error) {
     console.error("Erro ao buscar a lista de Pokémons:", error);
   } finally {
-    isLoading.value = false;
+    isLoading.value = true;
   }
 };
 
