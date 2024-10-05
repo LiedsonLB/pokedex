@@ -60,7 +60,7 @@
 <script setup>
 import ModalTypesPokemon from "./modals/ModalTypesPokemon.vue";
 import Loading from "@/components/Loading.vue";
-import { ref, defineEmits } from "vue";
+import { ref } from "vue";
 
 const emit = defineEmits();
 
@@ -107,10 +107,12 @@ const filterPokemon = () => {
     const matchesName = pokemon.name
       .toLowerCase()
       .includes(searchTerm.value.toLowerCase());
+    const matchesId = pokemon.id.toString().includes(searchTerm.value);
     const matchesType =
       selectedTypes.value.length === 0 ||
       pokemon.types.some((type) => selectedTypes.value.includes(type));
-    return matchesName && matchesType;
+
+    return (matchesName || matchesId) && matchesType;
   });
 };
 
