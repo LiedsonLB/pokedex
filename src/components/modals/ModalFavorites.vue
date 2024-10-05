@@ -5,27 +5,32 @@
         <p>Pokémons Favoritos</p>
         <button class="close" @click="closeModal">&times;</button>
       </div>
-      <div v-if="favoritePokemons.length">
+      <div>
         <div class="favorites">
-          <div
-            class="pokemon-card"
-            v-for="pokemon in favoritePokemons"
-            :key="pokemon.name"
-          >
-            <div class="rank">#{{ pokemon.id }}</div>
-            <img :src="pokemon.image" :alt="pokemon.name" />
-            <p>{{ pokemon.name }}</p>
-          </div>
+          <!-- Se houver favoritos, exibe a lista de cards -->
+          <template v-if="favoritePokemons.length > 0">
+            <div
+              class="pokemon-card"
+              v-for="pokemon in favoritePokemons"
+              :key="pokemon.name"
+            >
+              <div class="rank">#{{ pokemon.id }}</div>
+              <img :src="pokemon.image" :alt="pokemon.name" />
+              <p>{{ pokemon.name }}</p>
+            </div>
+          </template>
+
+          <!-- Se não tiver pokemons como favoritos -->
+          <template v-else>
+            <p class="no-favorites">Você não tem Pokémons favoritos.</p>
+          </template>
         </div>
-      </div>
-      <div v-else>
-        <p>Você não tem Pokémons favoritos.</p>
       </div>
     </div>
   </div>
 </template>
-  
-  <script setup>
+
+<script setup>
 import { ref, onMounted, watch } from "vue";
 
 const props = defineProps({
@@ -39,7 +44,7 @@ const emit = defineEmits(["close"]);
 
 const favoritePokemons = ref([]);
 
-// Função para buscar os detalhes do Pokémon pela API
+// Função para buscar os detalhes do Pokémon na API
 async function fetchPokemonData(name) {
   try {
     const response = await fetch(
@@ -57,16 +62,20 @@ async function fetchPokemonData(name) {
     };
   } catch (error) {
     console.error(error);
-    return null; // Retorna null em caso de erro
+    return null;
   }
 }
 
 // Recupera os Pokémons favoritos do localStorage ao montar o componente
 onMounted(async () => {
   const favorites = JSON.parse(localStorage.getItem("favoritePokemons")) || [];
-  const promises = favorites.map(fetchPokemonData);
-  const results = await Promise.all(promises);
-  favoritePokemons.value = results.filter((pokemon) => pokemon !== null); // Filtra resultados válidos
+  if (favorites.length === 0) {
+    favoritePokemons.value = [];
+  } else {
+    const promises = favorites.map(fetchPokemonData);
+    const results = await Promise.all(promises);
+    favoritePokemons.value = results.filter((pokemon) => pokemon !== null); // Filtra resultados válidos
+  }
 });
 
 watch(
@@ -75,10 +84,16 @@ watch(
     if (isVisible) {
       const favorites =
         JSON.parse(localStorage.getItem("favoritePokemons")) || [];
-      const promises = favorites.map(fetchPokemonData);
-      Promise.all(promises).then((results) => {
-        favoritePokemons.value = results.filter((pokemon) => pokemon !== null);
-      });
+      if (favorites.length === 0) {
+        favoritePokemons.value = [];
+      } else {
+        const promises = favorites.map(fetchPokemonData);
+        Promise.all(promises).then((results) => {
+          favoritePokemons.value = results.filter(
+            (pokemon) => pokemon !== null
+          );
+        });
+      }
     }
   }
 );
@@ -87,8 +102,8 @@ function closeModal() {
   emit("close");
 }
 </script>
-  
-  <style scoped>
+
+<style scoped>
 .modal {
   position: fixed;
   z-index: 1000;
@@ -134,7 +149,7 @@ function closeModal() {
 .close {
   background: transparent;
   border: none;
-  color: #aaa;
+  color: #404040;
   float: right;
   font-size: 30px;
   font-weight: bold;
@@ -185,5 +200,12 @@ function closeModal() {
   width: 80px;
   height: 80px;
 }
+
+.no-favorites {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: var(--color-gray-letter) !important;
+  font-size: 1.2rem;
+  padding: 2rem 0;
+}
 </style>
-  

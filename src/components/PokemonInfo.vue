@@ -38,7 +38,7 @@
           <span
             v-for="type in pokemon.types"
             :key="type.type.name"
-            :class="`type-${type.type.name}`"
+            :class="`type-${type.type.name} type-padding`"
             >{{ type.type.name }}</span
           >
         </div>
@@ -163,6 +163,10 @@ watch(
   margin-bottom: 20px;
 }
 
+.type-padding {
+  padding: 5px 10px;
+}
+
 .favorite-pokemon {
   position: absolute;
   top: 0px;
@@ -224,114 +228,6 @@ watch(
 .evolution-section img {
   width: 70px;
   margin-right: 10px;
-}
-
-.type-normal {
-  background-color: #a8a878;
-  color: var(--color-white);
-  padding: 5px 10px;
-}
-
-.type-fire {
-  background-color: #f08030;
-  color: var(--color-white);
-  padding: 5px 10px;
-}
-
-.type-water {
-  background-color: #6890f0;
-  color: var(--color-white);
-  padding: 5px 10px;
-}
-
-.type-electric {
-  background-color: #f8d030;
-  color: var(--color-white);
-  padding: 5px 10px;
-}
-
-.type-grass {
-  background-color: #78c850;
-  color: var(--color-white);
-  padding: 5px 10px;
-}
-
-.type-ice {
-  background-color: #98d8d8;
-  color: var(--color-white);
-  padding: 5px 10px;
-}
-
-.type-fighting {
-  background-color: #c03028;
-  color: var(--color-white);
-  padding: 5px 10px;
-}
-
-.type-poison {
-  background-color: #a040a0;
-  color: var(--color-white);
-  padding: 5px 10px;
-}
-
-.type-ground {
-  background-color: #e0c068;
-  color: var(--color-white);
-  padding: 5px 10px;
-}
-
-.type-flying {
-  background-color: #a890f0;
-  color: var(--color-white);
-  padding: 5px 10px;
-}
-
-.type-psychic {
-  background-color: #f85888;
-  color: var(--color-white);
-  padding: 5px 10px;
-}
-
-.type-bug {
-  background-color: #a8b820;
-  color: var(--color-white);
-  padding: 5px 10px;
-}
-
-.type-rock {
-  background-color: #b8a038;
-  color: var(--color-white);
-  padding: 5px 10px;
-}
-
-.type-ghost {
-  background-color: #705898;
-  color: var(--color-white);
-  padding: 5px 10px;
-}
-
-.type-dragon {
-  background-color: #7038f8;
-  color: var(--color-white);
-  padding: 5px 10px;
-}
-
-.type-dark {
-  background-color: #705848;
-  color: var(--color-white);
-  padding: 5px 10px;
-}
-
-.type-steel {
-  background-color: #b8b8d0;
-  color: var(--color-white);
-  padding: 5px 10px;
-}
-
-.type-fairy {
-  background-color: #ee99ac;
-  color: var(--color-white);
-  padding: 5px 10px;
 }
 
 /* Botão fornecido na comunidade do site uiverse.io */

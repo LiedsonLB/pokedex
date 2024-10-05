@@ -1,4 +1,5 @@
 <template>
+  <ModalTypesPokemon />
   <section class="pokemon-search">
     <div class="container-search">
       <input
@@ -50,6 +51,7 @@
 </template>
 
 <script setup>
+import ModalTypesPokemon from "./modals/ModalTypesPokemon.vue";
 import { ref, defineEmits } from "vue";
 
 const emit = defineEmits();
