@@ -117,6 +117,95 @@ git push origin feature/nova-feature
 ```
 5. Abra um Pull Request.
 
+## Testes Vitest
+
+### 1. Execute o comando:
+``` bash
+npm run test
+```
+
+## Rotas da API
+
+### GET /api/pokemon/[id/name]
+
+- https://pokeapi.co/api/v2/pokemon/4
+
+``` json
+[
+  {
+    "id": 4,
+    "name": "Charmander",
+    "type": ["Fire"],
+    "stats": [
+      {
+        "stat": {
+          "name": "hp",
+          "value": 39
+        }
+      },
+    ],
+    "sprites": {
+      "front": "https://example.com/charmander-front.png",
+    }
+  }
+]
+```
+
+- Visualiza um pokemon específico que você está procurando pelo ID ou pelo nome
+
+### /api/pokemon
+
+- https://pokeapi.co/api/v2/pokemon?limit=920
+
+``` json
+"results": [
+    {
+      "name": "bulbasaur",
+      "url": "https://pokeapi.co/api/v2/pokemon/1/"
+    },
+    {
+      "name": "ivysaur",
+      "url": "https://pokeapi.co/api/v2/pokemon/2/"
+    }
+    ...
+  ]
+```
+- Esta rota retorna uma lista de Pokémon disponíveis na PokeAPI. Você pode especificar um parâmetro de consulta limit para limitar o número de pokemons
+
+
+### /api/type
+- https://pokeapi.co/api/v2/type
+
+``` json
+  "results": [
+    {
+      "name": "normal",
+      "url": "https://pokeapi.co/api/v2/type/1/"
+    },
+    {"name": "fighting",
+      "url": "https://pokeapi.co/api/v2/type/2/"
+    },
+    {"name": "flying",
+      "url": "https://pokeapi.co/api/v2/type/3/"
+    },
+    {"name": "poison",
+      "url": "https://pokeapi.co/api/v2/type/4/"
+    },
+    {"name": "ground",
+      "url": "https://pokeapi.co/api/v2/type/5/"
+    },
+    {"name": "rock",
+      "url": "https://pokeapi.co/api/v2/type/6/"
+    },
+    {"name": "bug",
+      "url": "https://pokeapi.co/api/v2/type/7/"
+    }
+    ...
+  ]
+```
+
+- Esta rota retorna uma lista com os tipos de Pokémon da PokeAPI.
+
 ## Contato
 
 Se tiver dúvidas ou sugestões, sinta-se à vontade para entrar em contato através de:
@@ -130,5 +219,6 @@ Se tiver dúvidas ou sugestões, sinta-se à vontade para entrar em contato atra
 ## Releases
 
 - Release v1.0 ✅
+- Release v2.0 ✅
 
 **Prazo de Entrega**: 03/10/2024 às 23:59
